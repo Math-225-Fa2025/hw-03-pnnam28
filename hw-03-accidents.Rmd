@@ -71,7 +71,9 @@ ANSWER: each row will be represent an accident.
 
 3.  Recreate the following plot, and describe in context of the data. In your answer, don't forget to label your R chunk as well (where it says `label-me-1`). Your label should be short, informative, shouldn't include spaces, and shouldn't shouldn't repeat a previous label.
 
-```{r label-me-1, eval = TRUE, echo = FALSE, fig.fullwidth = TRUE}
+ANSWER: The data showed how many accidents happened throughout the week. Based on the plot we can say that there are no fatal accident during the weekend. And suprisingly most of the accident that occured from 12am to 6am during weekday are most likely to be fatal. 
+
+```{r accident_severe_throughout_the_week, eval = TRUE, echo = FALSE, fig.fullwidth = TRUE}
 accidents %>%
   mutate(day_of_week_type = if_else(day_of_week %in% c("Saturday", "Sunday"), "Weekend", "Weekday")) %>%
   ggplot(aes(x = time, fill = severity)) +
@@ -92,9 +94,21 @@ accidents %>%
 
 4.  Create another data visualization based on these data and interpret it. You can choose any variables and any type of visualization you like, but it must have at least three variables, e.g. a scatterplot of x vs. y isn't enough, but if points are colored by z, that's fine. In your answer, don't forget to label your R chunk as well (where it says `label-me-2`).
 
-```{r label-me-2, eval = TRUE, echo = FALSE, fig.fullwidth = TRUE}
-
-
+```{r Road_Condition, eval = TRUE, echo = FALSE, fig.fullwidth = TRUE}
+accidents %>%
+  filter(day_of_week %in% c("Saturday", "Sunday")) %>%
+  ggplot(aes(x = casualties, fill = severity)) +
+  geom_density(alpha = 0.5) +
+  facet_wrap(~day_of_week, ncol = 1) +
+  theme_minimal() +
+  scale_fill_viridis_d() +
+  labs(
+    title = "Number of accidents throughout the day",
+    subtitle = "By day of week and severity",
+    x = "Time of day",
+    y = "Density",
+    fill = "Severity"
+  )
 ```
 
 🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards and review the md document on GitHub to make sure you're happy with the final state of your work.* Once you decide that you are done with the lab, choose the knit drop down and select `Knit to tufte_handout` to generate a pdf. Download and submit that pdf to Canvas.
